@@ -2,22 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Index of Learning Styles Assessment</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.5; }
-        h1, h2 { text-align: center; }
-        .question { margin-bottom: 15px; }
-        .answers { margin-left: 20px; }
-        .result { margin-top: 30px; text-align: center; }
-        .scale { font-family: monospace; margin: 10px 0; }
-        button { display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .question {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .answers {
+            margin-top: 10px;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .answers input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        button {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 40px;
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .scale {
+            font-family: monospace;
+            font-size: 16px;
+            margin: 15px 0;
+            color: #2c3e50;
+        }
     </style>
 </head>
 <body>
     <h1>Index of Learning Styles Assessment</h1>
-    <form id="ilsForm">
-        <!-- Questions will be inserted here by JavaScript -->
-    </form>
+    <form id="ilsForm"></form>
     <button onclick="calculateResults()">Submit</button>
 
     <div class="result" id="resultSection"></div>
@@ -117,24 +168,22 @@
             ["a) think of solution steps.", "b) think of applications or consequences."]
         ];
 
-        const dimensions = ["ACT/REF", "SNS/INT", "VIS/VRB", "SEQ/GLO"];
+        const dimensions = ["ACTIVE/REFLECTIVE", "SENSING/INTUITIVE", "VISUAL/VERBAL", "SEQUENTIAL/GLOBAL"];
 
-        // Generate Questions
         const form = document.getElementById("ilsForm");
         questions.forEach((q, idx) => {
             const qNum = idx + 1;
             const div = document.createElement("div");
             div.className = "question";
-            div.innerHTML = `<strong>Q${qNum}. ${q}</strong><br>
-                <div class="answers">
-                    <label><input type="radio" name="q${qNum}" value="a" required> ${options[idx][0]}</label><br>
-                    <label><input type="radio" name="q${qNum}" value="b"> ${options[idx][1]}</label>
-                </div>`;
+            div.innerHTML = `<strong>Q${qNum}. ${q}</strong><div class="answers">
+                <label><input type="radio" name="q${qNum}" value="a" required> ${options[idx][0]}</label>
+                <label><input type="radio" name="q${qNum}" value="b"> ${options[idx][1]}</label>
+            </div>`;
             form.appendChild(div);
         });
 
         function calculateResults() {
-            const counts = { "ACT/REF": {a: 0, b: 0}, "SNS/INT": {a: 0, b: 0}, "VIS/VRB": {a: 0, b: 0}, "SEQ/GLO": {a: 0, b: 0} };
+            const counts = { "ACTIVE/REFLECTIVE": {a: 0, b: 0}, "SENSING/INTUITIVE": {a: 0, b: 0}, "VISUAL/VERBAL": {a: 0, b: 0}, "SEQUENTIAL/GLOBAL": {a: 0, b: 0} };
             for (let i = 1; i <= 44; i++) {
                 const answer = document.querySelector(`input[name="q${i}"]:checked`)?.value;
                 if (!answer) {
