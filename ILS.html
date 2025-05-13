@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Index of Learning Styles Assessment</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.5; }
+        h1, h2 { text-align: center; }
+        .question { margin-bottom: 15px; }
+        .answers { margin-left: 20px; }
+        .result { margin-top: 30px; text-align: center; }
+        .scale { font-family: monospace; margin: 10px 0; }
+        button { display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>Index of Learning Styles Assessment</h1>
+    <form id="ilsForm">
+        <!-- Questions will be inserted here by JavaScript -->
+    </form>
+    <button onclick="calculateResults()">Submit</button>
+
+    <div class="result" id="resultSection"></div>
+
+    <script>
+        const questions = [
+            "I understand something better after I",
+            "I would rather be considered",
+            "When I think about what I did yesterday, I am most likely to get",
+            "I tend to",
+            "When I am learning something new, it helps me to",
+            "If I were a teacher, I would rather teach a course",
+            "I prefer to get new information in",
+            "Once I understand",
+            "In a study group working on difficult material, I am more likely to",
+            "I find it easier",
+            "In a book with lots of pictures and charts, I am likely to",
+            "When I solve math problems",
+            "In classes I have taken",
+            "In reading nonfiction, I prefer",
+            "I like teachers",
+            "When I’m analyzing a story or a novel",
+            "When I start a homework problem, I am more likely to",
+            "I prefer the idea of",
+            "I remember best",
+            "It is more important to me that an instructor",
+            "I prefer to study",
+            "I am more likely to be considered",
+            "When I get directions to a new place, I prefer",
+            "I learn",
+            "I would rather first",
+            "When I am reading for enjoyment, I like writers to",
+            "When I see a diagram or sketch in class, I am most likely to remember",
+            "When considering a body of information, I am more likely to",
+            "I more easily remember",
+            "When I have to perform a task, I prefer to",
+            "When someone is showing me data, I prefer",
+            "When writing a paper, I am more likely to",
+            "When I have to work on a group project, I first want to",
+            "I consider it higher praise to call someone",
+            "When I meet people at a party, I am more likely to remember",
+            "When I am learning a new subject, I prefer to",
+            "I am more likely to be considered",
+            "I prefer courses that emphasize",
+            "For entertainment, I would rather",
+            "Some teachers start their lectures with an outline. Such outlines are",
+            "The idea of doing homework in groups",
+            "When I am doing long calculations",
+            "I tend to picture places I have been",
+            "When solving problems in a group, I would be more likely to"
+        ];
+
+        const options = [
+            ["a) try it out.", "b) think it through."],
+            ["a) realistic.", "b) innovative."],
+            ["a) a picture.", "b) words."],
+            ["a) understand details but may be fuzzy about overall structure.", "b) understand overall structure but may be fuzzy about details."],
+            ["a) talk about it.", "b) think about it."],
+            ["a) that deals with facts and real life situations.", "b) that deals with ideas and theories."],
+            ["a) pictures, diagrams, graphs, or maps.", "b) written directions or verbal information."],
+            ["a) all the parts, then the whole.", "b) the whole thing, then the parts."],
+            ["a) jump in and contribute ideas.", "b) sit back and listen."],
+            ["a) to learn facts.", "b) to learn concepts."],
+            ["a) look over the pictures and charts.", "b) focus on the written text."],
+            ["a) work my way step by step.", "b) just see the solution and figure out steps later."],
+            ["a) gotten to know many students.", "b) rarely gotten to know many students."],
+            ["a) something that teaches new facts.", "b) something that gives new ideas."],
+            ["a) teachers who use diagrams.", "b) teachers who spend time explaining."],
+            ["a) analyze incidents to find themes.", "b) know themes first, find incidents later."],
+            ["a) start working immediately.", "b) understand the problem first."],
+            ["a) certainty.", "b) theory."],
+            ["a) what I see.", "b) what I hear."],
+            ["a) clear sequential steps.", "b) overall picture and relations to other subjects."],
+            ["a) in a study group.", "b) alone."],
+            ["a) careful about details.", "b) creative about how to do work."],
+            ["a) a map.", "b) written instructions."],
+            ["a) at a regular pace.", "b) in fits and starts."],
+            ["a) try things out.", "b) think how I'm going to do it."],
+            ["a) clearly say what they mean.", "b) say things in creative ways."],
+            ["a) the picture.", "b) what the instructor said."],
+            ["a) focus on details first.", "b) understand big picture first."],
+            ["a) something I have done.", "b) something I have thought a lot about."],
+            ["a) master one way.", "b) come up with new ways."],
+            ["a) charts or graphs.", "b) text summaries."],
+            ["a) write beginning first, then proceed.", "b) write different parts and order them later."],
+            ["a) have group brainstorming.", "b) brainstorm individually first."],
+            ["a) sensible.", "b) imaginative."],
+            ["a) what they looked like.", "b) what they said."],
+            ["a) stay focused on the subject.", "b) make connections to related subjects."],
+            ["a) outgoing.", "b) reserved."],
+            ["a) concrete material.", "b) abstract material."],
+            ["a) watch television.", "b) read a book."],
+            ["a) somewhat helpful.", "b) very helpful."],
+            ["a) appeals to me.", "b) does not appeal to me."],
+            ["a) check work carefully.", "b) find checking work tiresome."],
+            ["a) easily and accurately.", "b) with difficulty and little detail."],
+            ["a) think of solution steps.", "b) think of applications or consequences."]
+        ];
+
+        const dimensions = ["ACT/REF", "SNS/INT", "VIS/VRB", "SEQ/GLO"];
+
+        // Generate Questions
+        const form = document.getElementById("ilsForm");
+        questions.forEach((q, idx) => {
+            const qNum = idx + 1;
+            const div = document.createElement("div");
+            div.className = "question";
+            div.innerHTML = `<strong>Q${qNum}. ${q}</strong><br>
+                <div class="answers">
+                    <label><input type="radio" name="q${qNum}" value="a" required> ${options[idx][0]}</label><br>
+                    <label><input type="radio" name="q${qNum}" value="b"> ${options[idx][1]}</label>
+                </div>`;
+            form.appendChild(div);
+        });
+
+        function calculateResults() {
+            const counts = { "ACT/REF": {a: 0, b: 0}, "SNS/INT": {a: 0, b: 0}, "VIS/VRB": {a: 0, b: 0}, "SEQ/GLO": {a: 0, b: 0} };
+            for (let i = 1; i <= 44; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`)?.value;
+                if (!answer) {
+                    alert(`Please answer question ${i}.`);
+                    return;
+                }
+                const dim = dimensions[(i - 1) % 4];
+                counts[dim][answer]++;
+            }
+
+            const resultDiv = document.getElementById("resultSection");
+            resultDiv.innerHTML = "<h2>Your Results</h2>";
+
+            Object.entries(counts).forEach(([dim, values]) => {
+                const diff = values.a - values.b;
+                const position = 11 - diff;  // Scale from 1 to 21
+                const leftLabel = dim.split("/")[0];
+                const rightLabel = dim.split("/")[1];
+
+                let scale = `${leftLabel} `;
+                for (let i = 1; i <= 21; i++) {
+                    scale += (i === position) ? "X" : "-";
+                }
+                scale += ` ${rightLabel}`;
+                resultDiv.innerHTML += `<div class="scale">${scale}</div>`;
+            });
+
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
+</body>
+</html>
